@@ -1,0 +1,221 @@
+class Node{
+    int data;
+    Node next;
+    Node(int data){
+        this.data = data;
+    }
+}
+public class Main
+{
+    public static Node convertArrayToLL(int[] arr){
+        Node head = new Node(arr[0]);
+        Node temp = head;
+        
+        for(int i = 1 ; i < arr.length ;i++){
+            Node nn = new Node(arr[i]);
+            temp.next = nn;
+            temp = temp.next;
+            //temp = nn;
+        }
+        return head;
+    }
+    
+    static void traverse(Node head){
+        Node temp = head;
+        while(temp!=null){
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+    
+    static int countNode(Node head){
+        Node temp = head;
+        int count = 0;
+        while(temp != null){
+            count++;
+            temp = temp.next;
+        }
+        return count;
+    }
+    
+    static boolean search(Node head, int val){
+        Node temp = head;
+        while(temp!=null){
+            if(temp.data == val){
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
+    }
+    
+    static Node deleteNode(Node head){
+        if(head==null){
+            return null;
+        }
+        head = head.next;
+        return head;
+    }
+    
+    static Node deleteTail(Node head){
+        if(head==null || head.next == null){
+            return null;
+        }
+        Node temp = head;
+        while(temp.next.next != null){
+            temp = temp.next;
+        }
+        temp.next = null;
+        return head;
+    }
+    
+    static Node deleteKthNode(Node head,int k){
+        if(head==null) return null;
+        
+        if(k==1){
+            head = head.next;
+            return head;
+        }
+        
+        Node temp = head;
+        for(int i = 1 ; i < k - 1 ;i++){
+            temp = temp.next;
+        }
+        temp.next = temp.next.next;
+        return head;
+        
+        /*int c=1;
+        Node temp=head;;
+        Node prev=null;
+        while(c!=k){
+            prev = temp;
+            temp = temp.next;
+            c++;
+        }
+        prev.next = prev.next.next;
+        return head;*/
+    }
+    
+    static Node deleteVal(Node head, int val){
+        if(head == null) return null;
+        
+        if(head.data == val){
+            head = head.next;
+            return head;
+        }
+        Node temp = head;
+        Node prev = null;
+        
+        while( temp != null && temp.data!= val){
+            prev = temp;
+            temp = temp.next;
+        }
+        
+        if(temp==null) return head;
+        
+        prev.next = prev.next.next;
+        return head;
+    }
+    static Node insertAtHead(Node head, int val){
+        Node temp = new Node(val);
+        temp.next = head;
+        return temp;
+        /*
+        Node temp = new Node(val);
+        temp.next = head;
+        head=temp;
+        return head;
+        */
+    }
+    static Node insertAtTail(Node head, int val){
+        Node nn = new Node(val);
+        if(head==null){
+            //head=nn;
+            return nn;
+            //return head;
+        }
+        Node temp = head;
+        while(temp.next!=null){
+            temp = temp.next;
+        }
+        temp.next = nn;
+        return head;
+    }
+    static Node insertAtKthPosition(Node head, int k , int val){
+        if(head == null){
+            if(k==1){
+                Node nn = new Node (val);
+                return nn;
+            }else{
+                return null;
+            }
+        }
+        if(k==1){
+            Node nn = new Node(val);
+            nn.next = head;
+            return nn;
+        }
+        Node temp = head;
+        int c = 1;
+        while(temp!=null&&c!=(k-1)){
+            temp = temp.next;
+        }
+        Node nn = new Node(val);
+        nn.next = temp.next;
+        temp.next = nn;
+        return head;
+    }
+static Node insertBeforeValue(Node head, int val, int data){
+        if(head == null){
+            return null;
+        }
+        if(head.data == val){
+            Node nn = new Node(data);
+            nn.next = head;
+            return nn;
+        }
+        Node temp = head;
+        while(temp.next!=null && temp.next.data!=val){
+            temp =temp.next;
+        }
+        Node nn = new Node(data);
+        nn.next = temp.next;
+        temp.next = nn;
+        return head;
+        /*Node temp = head;
+        Node prev = null;
+        while(temp.data != val){
+            prev = temp;
+            temp = temp.next;
+        }
+        Node nn = new Node(data);
+        nn.next = temp;
+        prev.next = nn;
+        return head;*/
+    }
+
+	public static void main(String[] args) {
+		int[] arr = {5,8,1,9,6};
+		Node head = convertArrayToLL(arr);
+		traverse(head);
+		int c = countNode(head);
+		System.out.println("Total Node : "+ c);
+		System.out.println(search(head,7));
+		head = deleteNode(head);
+		head = deleteTail(head);
+		head = deleteKthNode(head,3);
+		head = deleteVal(head, 5);
+    head = insertAtHead(head,6);
+		head = insertAtTail(head,20);
+		head = insertAtKthPosition(head,2,88);
+		head = insertBeforeValue(head,7,22);
+		traverse(head);
+
+		
+// 		System.out.println(head.data);
+// 		System.out.println(head.next.data);
+// 		System.out.println(head.next.next.data);
+		
+	}
+}
